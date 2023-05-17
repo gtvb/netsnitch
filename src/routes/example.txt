@@ -1,0 +1,46 @@
+    let fetchedData;
+
+    let chart;
+    let chartData = []
+    let chartLabels = []
+    
+    // represents the reference to the canvas element itself
+    let exampleChartCanvas;
+    let ctx;
+
+    onMount(() => {
+        invoke("init_socket_handler");
+    });
+
+    onMount(() => {
+        ctx = exampleChartCanvas.getContext('2d');
+        chart = new Chart(ctx, {
+            type: "pie",
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    data: chartData
+                }]
+            }
+        });
+    });
+
+    onMount(() => {
+        function fetchData() {
+            return Array.from({length: 40}, () => Math.floor(Math.random() * 40));
+        }
+
+        const interval = setInterval(() => {
+            fetchedData = fetchData();
+        }, 5000);
+
+        return () => clearInterval(interval);
+    });
+
+    $: if(fetchedData) {
+        chartData = fetchedData;
+        chartLabels = fetchedData.map(data => data.toString());
+        chart.labels = chartLabels;
+        chart.data.datasets[0].data = chartData
+        chart.update()
+    }
