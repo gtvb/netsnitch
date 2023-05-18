@@ -1,6 +1,7 @@
 <script>
     import { invoke } from "@tauri-apps/api/tauri"
     import { onMount } from "svelte";
+    import { hostsDataStore } from "../utils/store";
 
     import HostsTable from "../components/HostsTable.svelte";
     import AppUsage from "../components/AppUsage.svelte";
@@ -13,20 +14,29 @@
     });
 </script>
 
-<section class="section">
-    <div class="tile is-ancestor is-vertical">
-      <div class="tile">
-        <div class="tile">
-            <AppUsage />
+<div class="section">
+    <div class="tile is-vertical is-ancestor">
+        <h2 class="title">
+            Network Usage
+        </h2>
+        <div class="tile is-parent">
+            <div class="tile is-child is-4">
+            </div>
+
+            <div class="tile is-child is-4">
+                <AppUsage />
+            </div>
+
+            <div class="tile is-child is-4">
+                <ProtocolUsage />
+            </div>
         </div>
-        <div class="tile">
-            <ProtocolUsage />
-        </div>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child">
+
+        <h2 class="title">
+            Connections
+        </h2>
+        <div class="tile is-child">
             <HostsTable />
-        </article>
-      </div>
+        </div>
     </div>
-</section>
+</div>

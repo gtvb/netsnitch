@@ -1,11 +1,12 @@
 <script>
     import { listen } from "@tauri-apps/api/event"
-    import { onMount } from "svelte";
-    import { convertToMegabytes } from "../utils/units";
-    import { Chart } from "chart.js";
-    import { generateRandomHexColor } from "../utils/color";
 
-    let fetchedData;
+    import { onMount } from "svelte";
+    import { Chart } from "chart.js";
+
+    import { convertToBytes, formatByteValue } from "../utils/units";
+
+    let fetchedData; 
     let applicationData;
 
     let chartCtx;
@@ -16,8 +17,17 @@
         chartElement = new Chart(chartCtx, {
             type: "bar",
             data: {
-                labels: [],
                 datasets: [{
+                    data: [],
+                    backgroundColor: [
+                        "orange",
+                        "green",
+                        "red",
+                        "blue",
+                        "magenta",
+                        "yellow",
+                        "brown",
+                    ]
                 }]
             },
             options: {
@@ -29,7 +39,7 @@
                     },
                     title: {
                         display: true,
-                        text: 'Application Usage'
+                        text: 'By Application/Process'
                     }
                 },
                 scales: {
@@ -68,14 +78,16 @@
     });
 
     $: if(applicationData && chartElement) {
-        chartElement.data.labels = applicationData.map(value => value.name);
+        chartElement.data.labels = applicationData.map(value => {
+            return value.name;
+        });
         chartElement.data.datasets[0].data = applicationData.map(value => {
-            return convertToKilobytes(value.download) + convertToKilobytes(value.upload);
+            const formatted = formatByteValue(convertToBytes(value.download) + convertToBytes(value.upload));
+            return formatted.value;
         });
 
         chartElement.update();
     }
-
 </script>
 
 <canvas bind:this={chartElement}></canvas>

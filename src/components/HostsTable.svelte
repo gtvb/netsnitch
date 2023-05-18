@@ -1,6 +1,7 @@
 <script>
     import { listen } from "@tauri-apps/api/event"
     import { onMount } from "svelte";
+    import { convertToBytes, formatByteValue } from "../utils/units";
 
     let fetchedData;
     let hostsData;
@@ -22,6 +23,14 @@
                     key
                 }
             });
+
+            jsonArray.sort((a, b) => {
+                const aTotal = convertToBytes(a.total);
+                const bTotal = convertToBytes(b.total);
+
+                return bTotal - aTotal;
+            });
+
             hostsData = jsonArray;
         }, 3000);
 
@@ -32,7 +41,7 @@
     });
 </script>
 
-<div style="overflow-y: scroll">
+<div style="overflow-y: scroll; height: 300px">
 {#if hostsData}
     <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <thead>
