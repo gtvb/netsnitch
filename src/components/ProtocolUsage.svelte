@@ -4,9 +4,11 @@
     import { onMount } from "svelte";
     import { Chart } from "chart.js";
 
-    import { hostsDataStore } from "../utils/store";
+    import { hostsDataStore } from "../utils/hostsStore";
+    import { settingsStore } from "../utils/settingsStore";
     import { convertToBytes, formatByteValue } from "../utils/units";
-    import { generateRandomHexColor } from "../utils/color";
+    import { doughnutChartConfig } from "../utils/chartOptions";
+    import { convertJsonToArray } from "../utils/json";
 
     let fetchedData;
     let protocolData;
@@ -15,39 +17,12 @@
     let chartElement;
 
     onMount(() => {
-        const backgrounds = [];
-        for(let i = 0; i < 50; i++) {
-            backgrounds.push(generateRandomHexColor());
-        }
-
         chartCtx = chartElement.getContext("2d");
-        chartElement = new Chart(chartCtx, {
-            type: "doughnut",
-            data: {
-                labels: [],
-                datasets: [{
-                    data: [],
-                    backgroundColor: backgrounds
-                }],
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        display: true,
-                    },
-                    title: {
-                        display: true,
-                        text: 'By Protocol'
-                    }
-                },
-            }
-        });
+        chartElement = new Chart(chartCtx, doughnutChartConfig);
     });
 
     onMount(async () => {
-        async function fetchAppUsageData() {
+        async function fetchProtocolData() {
             const unlisten = await listen('protocol-event', (data) => {
                 fetchedData = JSON.parse(data.payload);
             })
@@ -55,17 +30,11 @@
             return unlisten;
         }
 
-        const cleanup = await fetchAppUsageData();
+        const cleanup = await fetchProtocolData();
         const interval = setInterval(() => {
-            const jsonArray = Object.entries(fetchedData).map(([key, val]) => {
-                return {
-                    ...val,
-                    key
-                }
-            });
-            protocolData = jsonArray;
+            protocolData = convertJsonToArray(fetchedData);
             hostsDataStore.set(protocolData);
-        }, 3000);
+        }, $settingsStore.delay * 1000);
 
         return () => {
             cleanup();
@@ -74,10 +43,7 @@
     });
 
     $: if(protocolData && chartElement) {
-        chartElement.data.labels = protocolData.map(value => {
-            const sum = formatByteValue(convertToBytes(value.download) + convertToBytes(value.upload));
-            return value.key + "("+sum.unit+"B)";
-        });
+        chartElement.data.labels = protocolData.map(value => value.key);
         chartElement.data.datasets[0].data = protocolData.map(value => {
             return formatByteValue(convertToBytes(value.download) + convertToBytes(value.upload));
         });
@@ -86,6 +52,4 @@
 
 </script>
 
-<div style="max-height: 250px" class="block">
-    <canvas bind:this={chartElement}></canvas>
-</div>
+<canvas bind:this={chartElement}></canvas>

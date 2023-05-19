@@ -1,41 +1,48 @@
 <script>
     import { invoke } from "@tauri-apps/api/tauri"
     import { onMount } from "svelte";
-    import { hostsDataStore } from "../utils/store";
 
+    import Navbar from "../components/Navbar.svelte";
     import HostsTable from "../components/HostsTable.svelte";
     import AppUsage from "../components/AppUsage.svelte";
     import ProtocolUsage from "../components/ProtocolUsage.svelte";
+    import TotalUsage from "../components/TotalUsage.svelte";
 
     import "chart.js/auto";
 
     onMount(() => {
         invoke("init_socket_handler");
     });
+
 </script>
 
-<div class="section">
-    <div class="tile is-vertical is-ancestor">
-        <h2 class="title">
-            Network Usage
-        </h2>
+<div class="container">
+    <Navbar />
+    <div class="tile is-ancestor is-vertical">
+        <div class="container">
+            <h3 class="title is-4">
+                Usage graphs
+            </h3>
+        </div>
         <div class="tile is-parent">
-            <div class="tile is-child is-4">
+            <div class="tile is-parent box notification is-3 is-flex">
+                <TotalUsage />
             </div>
 
-            <div class="tile is-child is-4">
+            <div class="tile is-parent box is-5 ml-4 mx-6">
                 <AppUsage />
             </div>
-
-            <div class="tile is-child is-4">
+            <div class="tile is-parent box is-3" style="height: 252px">
                 <ProtocolUsage />
             </div>
         </div>
 
-        <h2 class="title">
-            Connections
-        </h2>
-        <div class="tile is-child">
+        <div class="container">
+            <h3 class="title is-4">
+                Active Connections
+            </h3>
+        </div>
+        <div class="tile box is-child">
             <HostsTable />
         </div>
     </div>

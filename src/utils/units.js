@@ -35,16 +35,9 @@ function convertToBytes(byteString) {
 }
 
 function formatByteValue(byteValue) {
-    let ret = byteValue;
-    for(const unit of ['', 'k', 'm', 'g', 't', 'p']) {
-        if(ret < 1024) {
-            return {
-                value: ret,
-                unit
-            };
-        }
-
-        ret /= 1024;
+    return {
+        value: parseFloat(byteValue / (1024 * 1024)),
+        unit: "m"
     }
 }
 

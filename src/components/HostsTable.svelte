@@ -1,13 +1,15 @@
 <script>
     import { listen } from "@tauri-apps/api/event"
     import { onMount } from "svelte";
-    import { convertToBytes, formatByteValue } from "../utils/units";
+    import { convertToBytes } from "../utils/units";
+    import { settingsStore } from "../utils/settingsStore";
+    import { convertJsonToArray } from "../utils/json";
 
     let fetchedData;
     let hostsData;
 
     onMount(async () => {
-        async function fetchAppUsageData() {
+        async function fetchHostsData() {
             const unlisten = await listen('ip-event', (data) => {
                 fetchedData = JSON.parse(data.payload);
             })
@@ -15,24 +17,18 @@
             return unlisten;
         }
 
-        const cleanup = await fetchAppUsageData();
+        const cleanup = await fetchHostsData();
         const interval = setInterval(() => {
-            const jsonArray = Object.entries(fetchedData).map(([key, val]) => {
-                return {
-                    ...val,
-                    key
-                }
-            });
-
-            jsonArray.sort((a, b) => {
+            const data = convertJsonToArray(fetchedData);
+            data.sort((a, b) => {
                 const aTotal = convertToBytes(a.total);
                 const bTotal = convertToBytes(b.total);
 
                 return bTotal - aTotal;
             });
 
-            hostsData = jsonArray;
-        }, 3000);
+            hostsData = data;
+        }, $settingsStore.delay);
 
         return () => {
             cleanup();
@@ -41,7 +37,7 @@
     });
 </script>
 
-<div style="overflow-y: scroll; height: 300px">
+<div style="overflow-y: scroll; height: 270px">
 {#if hostsData}
     <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <thead>
