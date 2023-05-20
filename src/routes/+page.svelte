@@ -19,7 +19,7 @@
 <div class="container">
     <Navbar />
     <div class="tile is-ancestor is-vertical">
-        <div class="container">
+        <div class="container pl-6 py-2">
             <h3 class="title is-4">
                 Usage graphs
             </h3>
@@ -37,9 +37,9 @@
             </div>
         </div>
 
-        <div class="container">
+        <div class="container pl-6 py-2">
             <h3 class="title is-4">
-                Active Connections
+                Active Connections 
             </h3>
         </div>
         <div class="tile box is-child">

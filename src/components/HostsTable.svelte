@@ -37,7 +37,7 @@
     });
 </script>
 
-<div style="overflow-y: scroll; height: 270px">
+<div style="overflow-y: scroll; height: 230px">
 {#if hostsData}
     <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <thead>

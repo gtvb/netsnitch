@@ -28,8 +28,33 @@
 
             <div class="block">
                 You can also change some of the settings to include a <strong>usage limit
-                alert</strong>, and change the default values for updating all collected
-                data! Enjoy!
+                alerts</strong>, and change the default values for updating all collected
+                data!
+            </div>
+
+            <h1 class="subtitle">
+                Understanding the data!
+            </h1>
+
+            <div class="block">
+                If you're not into computer science or anything like that, those
+                units may feel a bit hard to read or understand, and that's ok! In order
+                to give you the possibility to grasp all the data you're visualizing,
+                it would be cool to give some context to things.
+            </div>
+
+            <div class="block">
+                Inside all the parts of the software, there are units that relate to the amount
+                of data being sent/received on your machine. That's why we have the Download/
+                Upload fields on the Hosts Table! The bigger the number, the higher the amount
+                of data being consumed by your network. In this software, data is labeled in
+                <strong>MegaBytes (mB)</strong>.
+            </div>
+
+            <div class="block">
+                I hope this software can help people that have trouble finding out the bottlenecks
+                of their systems, so they can be easily eliminated.
+                Enjoy the tool!
             </div>
         </div>
     </div>
