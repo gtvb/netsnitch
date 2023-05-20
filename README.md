@@ -1,38 +1,24 @@
-# create-svelte
+# NetSnitch 
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Esse é o repositório que contém o código do protótipo desenvolvido durante
+o App Challenge de 2023, um evento promovido pelo Inatel, cujo tema deste ano
+foi: **Criar um Medidor de tráfego de Rede".
 
-## Creating a project
+## Como executar o projeto localmente?
 
-If you're seeing this, you've probably already done this step. Congrats!
+Você precisa ter o `node` e `python` instalados em sua máquina. Também é
+necessário que você tenha clonado o repositório do sniffer desenvolvido
+pela organização do evento. Partindo desse ponto, execute os seguintes passos:
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+- Clone o repositório em sua máquina local.
+- Execute o [sniffer](https://github.com/Viasat/Viasat-NetworkTrafficMeter) antes de executar a aplicação.
+- Ao entrar na pasta do NetSnitch, execute os seguintes comandos:
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+npm install
+npm run tauri dev
 ```
 
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+**Observação**: Por padrão, em ambiente de desenvolvimento, a aplicação também abrirá as
+Devtools, para fins de diagnóstico durante o processo de desenvolvimento. É só clicar no
+botão de fechar no canto superior esquerdo para se livrar dessa janela! 
