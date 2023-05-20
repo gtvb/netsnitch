@@ -6,8 +6,9 @@ foi: **Criar um Medidor de tráfego de Rede".
 
 ## Como executar o projeto localmente?
 
-Você precisa ter o `node` e `python` instalados em sua máquina. Também é
-necessário que você tenha clonado o repositório do sniffer desenvolvido
+Você precisa ter o `node` e `python` instalados em sua máquina, bem como seguir os seguintes 
+[passos](https://tauri.app/v1/guides/getting-started/prerequisites) para rodar a aplicação 
+desktop. Também é necessário que você tenha clonado o repositório do sniffer desenvolvido
 pela organização do evento. Partindo desse ponto, execute os seguintes passos:
 
 - Clone o repositório em sua máquina local.
